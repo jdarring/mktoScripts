@@ -1,57 +1,58 @@
 /**
  * Title: Bootstrap 5 For Marketo Forms
  * Author: Josh Arrington
- * Description: Attempts to destyle all Marketo forms on a page and then restyle them with Bootrap 5 Classes
+ * Description: De-styles all Marketo forms on a page and then restyles them with Bootstrap 5 classes.
  */
 
-function destyleMktoForm(mktoForm){
-	var formEl = mktoForm.getFormElem()[0],
-		arrayify = getSelection.call.bind([].slice);
+/**
+ * Remove styles applied directly to Marketo form elements.
+ * @param {Object} mktoForm - Marketo form object.
+ */
+function destyleMktoForm(mktoForm) {
+    const formEl = mktoForm.getFormElem()[0];
 
-	// remove element styles from <form> and children
-	var styledEls = arrayify(formEl.querySelectorAll("[style]")).concat(formEl);	
-	styledEls.forEach(function(el) {
-		el.removeAttribute("style");
-	});
+    // Remove element styles from <form> and children.
+    const styledEls = Array.from(formEl.querySelectorAll("[style]")).concat(formEl);
+    styledEls.forEach(el => el.removeAttribute("style"));
 
-	// disable remote stylesheets and local <style>s
-	var styleSheets = arrayify(document.styleSheets);	
-	styleSheets.forEach(function(ss) {
-		if ( [mktoForms2BaseStyle,mktoForms2ThemeStyle].indexOf(ss.ownerNode) != -1 || formEl.contains(ss.ownerNode) ) {
-			ss.disabled = true;
-		} 
-	});
+    // Disable remote stylesheets and local <style> tags.
+    Array.from(document.styleSheets).forEach(ss => {
+        if ([mktoForms2BaseStyle, mktoForms2ThemeStyle].includes(ss.ownerNode) || formEl.contains(ss.ownerNode)) {
+            ss.disabled = true;
+        }
+    });
 
-   /* Additional Style */
-   const asteriskElements = document.querySelectorAll('.mktoAsterix');
-	for (let i = 0; i < asteriskElements.length; i++) {
-		const element = asteriskElements[i];
-		element.classList.add('d-inline','pe-1', 'text-danger');
-	}
-  // Hide duplicate labels for Checkboxes
-  jQuery('.mktoLogicalField').siblings('label').hide();
+    // Additional Style adjustments.
+    document.querySelectorAll('.mktoAsterix').forEach(element => {
+        element.classList.add('d-inline', 'pe-1', 'text-danger');
+    });
 
-}; 
-
-/* Add Bootstrap Classes */
-function  bootstrapMktoForm(mktoForm){
-
-    jQuery('input').addClass('form-control');
-    jQuery('select').addClass('form-control');
-    jQuery('textarea').addClass('form-control');
-    jQuery('label').addClass('form-label mb-0 mt-1 small');
-
-    // Update Submit Button
-    var button = jQuery('button[type="submit"].mktoButton');
-    button.addClass('btn btn-primary mt-2');
-
+    // Hide duplicate labels for Checkboxes using jQuery.
+    jQuery('.mktoLogicalField').siblings('label').hide();
 }
 
-MktoForms2.whenRendered(function(form) {
-    window.form_obj = form;
-    console.log('Form Rendered', form);
+/**
+ * Add Bootstrap 5 styling to Marketo form elements.
+ * @param {Object} mktoForm - Marketo form object.
+ */
+function bootstrapMktoForm() {
+    jQuery('input, select, textarea').addClass('form-control');
+    jQuery('label').addClass('form-label mb-0 mt-1 small');
+    
+    // Update Submit Button.
+    jQuery('button[type="submit"].mktoButton').addClass('btn btn-primary mt-2');
+}
 
-    destyleMktoForm(form);
-    bootstrapMktoForm(form);
-  
+/**
+ * Main driver function to destyle and then apply Bootstrap 5 styles.
+ * This function is called when a Marketo form is rendered.
+ */
+MktoForms2.whenRendered(function(form) {
+    try {
+        console.log('Form Rendered', form);
+        destyleMktoForm(form);
+        bootstrapMktoForm();
+    } catch (err) {
+        console.error('Error processing Marketo form styling:', err);
+    }
 });
