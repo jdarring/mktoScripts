@@ -38,7 +38,7 @@ function destyleMktoForm(mktoForm) {
 function bootstrapMktoForm() {
     $ = jQuery;
     $('input:not([type="checkbox"])').addClass('form-control');
-    $('div.mktoLogicalField').addClass('form-check');
+    $('div.mktoLogicalField').addClass('form-check my-2');
     $('div.mktoLogicalField input').addClass('form-check-input');
     $('div.mktoLogicalField label').addClass('form-check-label');
     $('select').addClass('form-select');
