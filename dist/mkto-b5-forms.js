@@ -36,11 +36,16 @@ function destyleMktoForm(mktoForm) {
  * @param {Object} mktoForm - Marketo form object.
  */
 function bootstrapMktoForm() {
-    jQuery('input, select, textarea').addClass('form-control');
-    jQuery('label').addClass('form-label mb-0 mt-1 small');
+    $ = jQuery;
+    $('input:not([type="checkbox"])').addClass('form-control');
+    $('div.mktoLogicalField').addClass('form-check');
+    $('div.mktoLogicalField input').addClass('form-check-input');
+    $('div.mktoLogicalField label').addClass('form-check-label');
+    $('select').addClass('form-select');
+    $('label').addClass('form-label mb-0 mt-1 small');
     
     // Update Submit Button.
-    jQuery('button[type="submit"].mktoButton').addClass('btn btn-primary mt-2');
+    $('button[type="submit"].mktoButton').addClass('btn btn-primary mt-2');
 }
 
 /**
