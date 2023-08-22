@@ -47,7 +47,7 @@ function bootstrapMktoForm() {
     // Update Submit Button.
     $('button[type="submit"].mktoButton').addClass('btn btn-primary mt-2');
 }
-
+ 
 /**
  * Main driver function to destyle and then apply Bootstrap 5 styles.
  * This function is called when a Marketo form is rendered.
